@@ -41,16 +41,30 @@ void naive_flip(int dim, pixel *src, pixel *dst)
  * flip - Your current working version of flip
  * IMPORTANT: This is the version you will be graded on
  */
-#pragma GCC push_options
-#pragma GCC optimize("-O3")
-char flip_descr[] = "ridxf/unrolled";
+//#define RIDX_Flip(i,j,n) ((n)-(i),(n)-(j))
+
+char flip_descr[] = "rewrite ridx_f";
 inline void flip(int dim, pixel *src, pixel *dst)
-{
+{              
     int i,j;
     for (i = 0; i < dim; i++){
         for (j = 0; j < dim; j++){
-	    int ridxf = RIDX_F(i,j,dim);
-	    int ridx = RIDX(i ,j, dim);
+	    int ridxf = RIDX_F(i, j, dim);
+	    int ridx = RIDX(i, j, dim);
+            dst[ridxf].red   = src[ridx].red;
+            dst[ridxf].green = src[ridx].green;
+            dst[ridxf].blue  = src[ridx].blue;
+}}}
+#pragma GCC push_options
+#pragma GCC optimize("-O3")
+char flip_ridx_descr[] = "unrolled ridx";
+inline void flip_r(int dim, pixel *src, pixel *dst)
+{              
+    int i,j,ridxf,ridx;
+    for (i = 0; i < dim; i++){
+        for (j = 0; j < dim; j++){
+	    ridxf = RIDX_F(i, j, dim);
+	    ridx = RIDX(i, j, dim);
             dst[ridxf].red   = src[ridx].red;
             dst[ridxf].green = src[ridx].green;
             dst[ridxf].blue  = src[ridx].blue;
@@ -244,142 +258,6 @@ inline void flip(int dim, pixel *src, pixel *dst)
     }
 }
 #pragma GCC pop_options
-inline void flip_unrolled(int dim, pixel *src, pixel *dst) 
-{
-    int i,j;
-    for(i = 0;i < dim;i++){
-        for(j=0;j<dim;j++){
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++; 
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++; 
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++; 
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++; 
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++; 
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++; 
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++; 
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++; 
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-            j++;
-            dst[RIDX_F(i, j, dim)].red   = src[RIDX(i, j, dim)].red;
-            dst[RIDX_F(i, j, dim)].green = src[RIDX(i, j, dim)].green;
-            dst[RIDX_F(i, j, dim)].blue  = src[RIDX(i, j, dim)].blue;
-	    //j++;
-        }
-    }
-}
 
 /*********************************************************************
  * register_flip_functions - Register all of your different versions
@@ -392,7 +270,8 @@ inline void flip_unrolled(int dim, pixel *src, pixel *dst)
 void register_flip_functions() 
 {
     add_flip_function(&flip, flip_descr);   
-    //add_flip_function(&naive_flip, naive_flip_descr);   
+    add_flip_function(&naive_flip, naive_flip_descr);   
+    //add_flip_function(&flip_r, flip_ridx_descr);   
     /* ... Register additional test functions here */
 }
 
