@@ -270,8 +270,9 @@ inline void flip_r(int dim, pixel *src, pixel *dst)
 void register_flip_functions() 
 {
     add_flip_function(&flip, flip_descr);   
-    add_flip_function(&naive_flip, naive_flip_descr);   
-    //add_flip_function(&flip_r, flip_ridx_descr);   
+    //add_flip_function(&naive_flip, naive_flip_descr);   
+    
+//add_flip_function(&flip_r, flip_ridx_descr);   
     /* ... Register additional test functions here */
 }
 
@@ -342,7 +343,7 @@ void naive_convolve(int dim, pixel *src, pixel *dst)
 char convolve_descr[] = "convolve: Current working version";
 inline void convolve(int dim, pixel *src, pixel *dst) 
 {
-    static int i, j, ii, jj, curI, curJ;
+    static int i, j, ii, jj, curI, curJ, ridx, ridxc;
     static pixel_sum ps;
     
     for (j = 0; j < dim; j++){
@@ -351,25 +352,31 @@ inline void convolve(int dim, pixel *src, pixel *dst)
 	    ps.green  = 0.0;
 	    ps.blue   = 0.0;
 	    ps.weight = 0.0;
-            for (jj = -2; jj <= 2; jj++){
-                for (ii = -2; ii <= 2; ii++){
-                    curJ = j+jj;
+            //for (jj = -2; jj <= 2; jj++)
+	    for(jj = 0; jj <= 4 ; jj++){
+                //for (ii = -2; ii <= 2; ii++)
+		for (ii = 0; ii <= 4; ii++){
+                    //curJ = j+jj;
+		    curJ = j + jj - 2;
                     if(curJ<0 || curJ>=dim){
                         continue;
                     }
-                    curI = i+ii;
+                    //curI = i+ii;
+		    curI = i + ii - 2;
                     if(curI<0 || curI>=dim){
                         continue;
                     }
-                    ps.red   += src[RIDX(curI, curJ, dim)].red *   kernel[ii+2][jj+2];
-                    ps.green += src[RIDX(curI, curJ, dim)].green * kernel[ii+2][jj+2];
-                    ps.blue  += src[RIDX(curI, curJ, dim)].blue *  kernel[ii+2][jj+2];
-                    ps.weight += kernel[ii+2][jj+2];
+		    ridxc = RIDX(curI, curJ, dim);
+                    ps.red   += src[ridxc].red *   kernel[ii][jj]; //all used to be jj+2, ii+2
+                    ps.green += src[ridxc].green * kernel[ii][jj];
+                    ps.blue  += src[ridxc].blue *  kernel[ii][jj];
+                    ps.weight += kernel[ii][jj];
                 }
             }
-            dst[RIDX(i,j,dim)].red   = (unsigned short)(ps.red/ps.weight);
-            dst[RIDX(i,j,dim)].green = (unsigned short)(ps.green/ps.weight);
-            dst[RIDX(i,j,dim)].blue  = (unsigned short)(ps.blue/ps.weight);
+	    ridx = RIDX(i,j,dim);
+            dst[ridx].red   = (unsigned short)(ps.red/ps.weight);
+            dst[ridx].green = (unsigned short)(ps.green/ps.weight);
+            dst[ridx].blue  = (unsigned short)(ps.blue/ps.weight);
         }
     }
 }
