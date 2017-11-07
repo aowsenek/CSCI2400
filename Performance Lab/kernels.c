@@ -287,13 +287,25 @@ void register_flip_functions()
  **************************************************************/
 
 /* A struct used to compute a pixel value */
-typedef struct {
+/*typedef struct{
     float red;
     float green;
     float blue;
     float weight;
-} pixel_sum;
-
+} pixel_sum;*/
+typedef struct pixel_sum pixel_sum;
+struct pixel_sum{
+    float red;
+    float green;
+    float blue;
+    float weight;
+    pixel_sum(){ //constructor not working??
+	red = 0.0;
+	green = 0.0;
+	blue = 0.0;
+	weight = 0.0;
+    };	
+};
 /******************************************************
  * Your different versions of the convolve kernel go here
  ******************************************************/
@@ -309,10 +321,10 @@ void naive_convolve(int dim, pixel *src, pixel *dst)
     
     for (j = 0; j < dim; j++){
         for (i = 0; i < dim; i++){
-	    ps.red    = 0.0;
-	    ps.green  = 0.0;
-	    ps.blue   = 0.0;
-	    ps.weight = 0.0;
+	    //ps.red    = 0.0;
+	    //ps.green  = 0.0;
+	    //ps.blue   = 0.0;
+	    //ps.weight = 0.0;
             for (jj = -2; jj <= 2; jj++){
                     curJ = j+jj;
                     if(curJ<0 || curJ>=dim){
