@@ -41,8 +41,10 @@ void naive_flip(int dim, pixel *src, pixel *dst)
  * flip - Your current working version of flip
  * IMPORTANT: This is the version you will be graded on
  */
+#pragma GCC push_options
+#pragma GCC optimize("-O3")
 char flip_descr[] = "ridxf/unrolled";
-inline void flip(int dim, pixel *src, pixel *dst) 
+inline void flip(int dim, pixel *src, pixel *dst)
 {
     int i,j;
     for (i = 0; i < dim; i++){
@@ -241,6 +243,7 @@ inline void flip(int dim, pixel *src, pixel *dst)
         }
     }
 }
+#pragma GCC pop_options
 inline void flip_unrolled(int dim, pixel *src, pixel *dst) 
 {
     int i,j;
